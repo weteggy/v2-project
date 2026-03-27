@@ -1,13 +1,1442 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Design System V2 — Project Hub</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design System V2 — Project Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --bg: #08080d;
+    --bg-elevated: #0e0e16;
+    --bg-card: #111119;
+    --bg-card-hover: #181824;
+    --bg-inner: #0c0c14;
+    --border: #1c1c2c;
+    --border-hover: #2e2e44;
+    --text-primary: #eaeaf2;
+    --text-secondary: #8a8aa4;
+    --text-muted: #52526a;
+    --green: #22c55e;
+    --green-dim: rgba(34,197,94,0.12);
+    --blue: #4d7cff;
+    --blue-dim: rgba(77,124,255,0.12);
+    --purple: #8b5cf6;
+    --purple-dim: rgba(139,92,246,0.12);
+    --amber: #f59e0b;
+    --amber-dim: rgba(245,158,11,0.12);
+    --rose: #f43f5e;
+    --cyan: #06b6d4;
+    --cyan-dim: rgba(6,182,212,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ═══════════════════════════════════════
+     PAGE MANAGEMENT
+     ═══════════════════════════════════════ */
+  .page { display: none; animation: fadeIn 0.35s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ═══════════════════════════════════════
+     HOME PAGE
+     ═══════════════════════════════════════ */
+  .home-hero {
+    padding: 80px 56px 20px;
+    position: relative;
+  }
+  .home-hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; left: 50%;
+    transform: translateX(-50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(77,124,255,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .home-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 20px;
+    background: var(--green-dim);
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid rgba(34,197,94,0.15);
+  }
+  .home-badge .pulse {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+    50%      { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+  }
+  .home-hero h1 {
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: -2.5px;
+    line-height: 1.05;
+    margin-bottom: 14px;
+  }
+  .home-hero h1 .accent { color: var(--blue); }
+  .home-hero p {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 540px;
+    line-height: 1.65;
+  }
+
+  /* ─── Tile Grid ─── */
+  .tile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 40px 56px 64px;
+  }
+  .tile {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .tile:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,0.5);
+  }
+  .tile::after {
+    content: '→';
+    position: absolute;
+    top: 32px; right: 32px;
+    font-size: 20px;
+    color: var(--text-muted);
+    transition: all 0.25s ease;
+  }
+  .tile:hover::after {
+    transform: translateX(4px);
+    color: var(--text-secondary);
+  }
+  .tile-glow {
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  .tile-number {
+    font-size: 52px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .tile-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+  .tile-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+  .tile-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .tile-tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid;
+  }
+
+  /* Tile accent colors */
+  .tile-green .tile-number { color: var(--green); }
+  .tile-green .tile-glow { background: radial-gradient(circle, rgba(34,197,94,0.1), transparent); }
+  .tile-green .tile-tag { color: var(--green); border-color: rgba(34,197,94,0.2); background: var(--green-dim); }
+  .tile-green:hover { border-color: rgba(34,197,94,0.25); }
+
+  .tile-blue .tile-number { color: var(--blue); }
+  .tile-blue .tile-glow { background: radial-gradient(circle, rgba(77,124,255,0.1), transparent); }
+  .tile-blue .tile-tag { color: var(--blue); border-color: rgba(77,124,255,0.2); background: var(--blue-dim); }
+  .tile-blue:hover { border-color: rgba(77,124,255,0.25); }
+
+  .tile-purple .tile-number { color: var(--purple); }
+  .tile-purple .tile-glow { background: radial-gradient(circle, rgba(139,92,246,0.1), transparent); }
+  .tile-purple .tile-tag { color: var(--purple); border-color: rgba(139,92,246,0.2); background: var(--purple-dim); }
+  .tile-purple:hover { border-color: rgba(139,92,246,0.25); }
+
+  .tile-amber .tile-number { color: var(--amber); }
+  .tile-amber .tile-glow { background: radial-gradient(circle, rgba(245,158,11,0.1), transparent); }
+  .tile-amber .tile-tag { color: var(--amber); border-color: rgba(245,158,11,0.2); background: var(--amber-dim); }
+  .tile-amber:hover { border-color: rgba(245,158,11,0.25); }
+
+  /* ═══════════════════════════════════════
+     DETAIL PAGES — SHARED
+     ═══════════════════════════════════════ */
+  .detail-header {
+    padding: 40px 56px 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .back-btn {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .back-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+  }
+  .detail-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+  }
+  .detail-body {
+    padding: 32px 56px 64px;
+  }
+
+  /* ─── Cards used across detail pages ─── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--border-hover); }
+  .card-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card ul { list-style: none; padding: 0; }
+  .card li {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    padding-left: 18px;
+    position: relative;
+  }
+  .card li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--text-muted);
+  }
+  .card-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  /* ─── Section dividers in detail ─── */
+  .detail-section {
+    margin-bottom: 32px;
+  }
+  .detail-section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .detail-section-title h2 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    white-space: nowrap;
+  }
+  .detail-section-title .line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ─── Architecture diagram ─── */
+  .arch-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 32px;
+    flex-wrap: wrap;
+  }
+  .arch-node {
+    padding: 16px 24px;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 13px;
+    text-align: center;
+    border: 1px solid;
+    min-width: 130px;
+    transition: transform 0.2s;
+  }
+  .arch-node:hover { transform: scale(1.05); }
+  .arch-node.n-blue { background: var(--blue-dim); border-color: rgba(77,124,255,0.25); color: #93b4ff; }
+  .arch-node.n-purple { background: var(--purple-dim); border-color: rgba(139,92,246,0.25); color: #c4a8ff; }
+  .arch-node.n-amber { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.25); color: #fcd477; }
+  .arch-node.n-green { background: var(--green-dim); border-color: rgba(34,197,94,0.25); color: #86efac; }
+  .arch-node.n-ghost { background: var(--green-dim); border-color: rgba(34,197,94,0.12); color: #86efac; opacity: 0.35; }
+  .arch-node small { display: block; font-weight: 400; font-size: 10px; opacity: 0.6; margin-top: 2px; }
+  .arch-arrow { font-size: 20px; color: var(--text-muted); }
+  .arch-arrow-down { font-size: 22px; color: var(--text-muted); }
+  .arch-note { font-size: 11px; color: var(--text-muted); font-style: italic; text-align: center; margin-top: 8px; }
+
+  /* ═══════════════════════════════════════
+     PAGE 2 — TIMELINE
+     ═══════════════════════════════════════ */
+  .timeline-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    overflow-x: auto;
+  }
+  .tl-grid {
+    display: grid;
+    grid-template-columns: 130px repeat(14, 1fr);
+    gap: 0;
+    min-width: 800px;
+  }
+  .tl-week {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-align: center;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 0 2px 8px;
+  }
+  .tl-corner { padding-bottom: 8px; }
+  .tl-phase {
+    text-align: center;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 7px 0;
+    border-radius: 6px;
+    margin-bottom: 16px;
+  }
+  .tl-phase.p1 { grid-column: 2/6; color: var(--blue); background: var(--blue-dim); }
+  .tl-phase.p2 { grid-column: 6/12; color: var(--purple); background: var(--purple-dim); }
+  .tl-phase.p3 { grid-column: 12/16; color: var(--amber); background: rgba(245,158,11,0.1); }
+  .tl-phase-spacer { margin-bottom: 16px; }
+  .tl-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding-right: 12px;
+    display: flex;
+    align-items: center;
+    min-height: 38px;
+    white-space: nowrap;
+  }
+  .tl-bar {
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 10px;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+    cursor: default;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    min-height: 38px;
+  }
+  .tl-bar:hover { transform: scaleY(1.12); z-index: 2; }
+  .tl-bar::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .tl-bar.b-done { background: rgba(34,197,94,0.15); color: var(--green); }
+  .tl-bar.b-blue { background: rgba(77,124,255,0.18); color: #93b4ff; }
+  .tl-bar.b-purple { background: rgba(139,92,246,0.18); color: #c4a8ff; }
+  .tl-bar.b-amber { background: rgba(245,158,11,0.15); color: #fcd477; }
+  .tl-bar.b-rose { background: rgba(244,63,94,0.15); color: #fca5b5; }
+  .tl-bar.b-cyan { background: var(--cyan-dim); color: #67e8f9; }
+  .tl-empty { min-height: 38px; }
+
+  /* Milestone row */
+  .tl-milestones {
+    display: grid;
+    grid-template-columns: 130px repeat(14, 1fr);
+    gap: 0;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    align-items: start;
+    min-width: 800px;
+  }
+  .tl-ms-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .tl-ms {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .tl-ms-diamond {
+    width: 12px; height: 12px;
+    transform: rotate(45deg);
+    border-radius: 2px;
+    margin-bottom: 6px;
+  }
+  .tl-ms-text {
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.3;
+    max-width: 80px;
+  }
+  .tl-ms-week {
+    font-size: 8px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* ═══════════════════════════════════════
+     PAGE 3 — DELIVERABLES
+     ═══════════════════════════════════════ */
+  .deliverable-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .del-count-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 24px;
+    flex: 1;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .del-count-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+  .del-count {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .del-count-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .component-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 10px;
+  }
+  .comp-chip {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: border-color 0.2s;
+  }
+  .comp-chip:hover { border-color: var(--border-hover); }
+  .comp-chip .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .comp-chip .status {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-left: auto;
+  }
+
+  /* ═══════════════════════════════════════
+     PAGE 4 — DATA VIZ
+     ═══════════════════════════════════════ */
+  .viz-hero-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .viz-hero-card::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(245,158,11,0.06), transparent 70%);
+    pointer-events: none;
+  }
+  .viz-hero-card h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .viz-hero-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 700px;
+  }
+
+  .viz-layers {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .viz-layer {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    transition: all 0.2s;
+  }
+  .viz-layer:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+  .viz-layer-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+  .viz-layer h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .viz-layer p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .viz-layer .tag-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .viz-layer .sm-tag {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 5px;
+  }
+
+  .viz-coverage-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .viz-coverage-table th {
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .viz-coverage-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .viz-coverage-table tr:last-child td { border-bottom: none; }
+  .viz-coverage-table .area { color: var(--text-primary); font-weight: 600; }
+  .viz-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+  .viz-status.done { color: var(--green); background: var(--green-dim); }
+  .viz-status.in-progress { color: var(--blue); background: var(--blue-dim); }
+  .viz-status.planned { color: var(--text-muted); background: rgba(82,82,106,0.15); }
+
+  /* ─── Footer ─── */
+  .footer {
+    padding: 32px 56px 48px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .footer strong { color: var(--text-secondary); font-weight: 600; }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 900px) {
+    .tile-grid { grid-template-columns: 1fr; padding: 32px 24px 48px; }
+    .home-hero { padding: 48px 24px 16px; }
+    .home-hero h1 { font-size: 36px; }
+    .detail-header, .detail-body { padding-left: 24px; padding-right: 24px; }
+    .card-grid-2, .card-grid-3, .viz-layers { grid-template-columns: 1fr; }
+    .deliverable-row { flex-direction: column; }
+    .arch-flow { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: HOME
+     ═══════════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <div class="home-hero">
+    <div class="home-badge"><span class="pulse"></span> POC validated — ready to build</div>
+    <h1>Design System <span class="accent">V2</span></h1>
+    <p>Framework-agnostic, AI-native design system. One spec generates correct components in any framework.</p>
+  </div>
+
+  <div class="tile-grid">
+
+    <!-- Tile 1: POC -->
+    <div class="tile tile-green" onclick="showPage('poc')">
+      <div class="tile-glow"></div>
+      <div class="tile-number">5</div>
+      <div class="tile-title">Components Proven in POC</div>
+      <div class="tile-desc">How the framework-agnostic architecture works and what the proof of concept validated.</div>
+      <div class="tile-tags">
+        <span class="tile-tag">Angular</span>
+        <span class="tile-tag">React</span>
+        <span class="tile-tag">Vue</span>
+        <span class="tile-tag">Web Components</span>
+      </div>
+    </div>
+
+    <!-- Tile 2: Timeline -->
+    <div class="tile tile-blue" onclick="showPage('timeline')">
+      <div class="tile-glow"></div>
+      <div class="tile-number">14</div>
+      <div class="tile-title">Weeks to Full Rollout</div>
+      <div class="tile-desc">Timeline with swimlanes, tasks, and milestones across Foundation, Library, and Adoption phases.</div>
+      <div class="tile-tags">
+        <span class="tile-tag">4 Phases</span>
+        <span class="tile-tag">7 Sprints</span>
+        <span class="tile-tag">5 Milestones</span>
+      </div>
+    </div>
+
+    <!-- Tile 3: Deliverables -->
+    <div class="tile tile-purple" onclick="showPage('deliverables')">
+      <div class="tile-glow"></div>
+      <div class="tile-number">40+</div>
+      <div class="tile-title">Total Deliverables</div>
+      <div class="tile-desc">Every component, style, pattern, theme, and framework target that ships with V2.</div>
+      <div class="tile-tags">
+        <span class="tile-tag">Components</span>
+        <span class="tile-tag">Tokens</span>
+        <span class="tile-tag">Themes</span>
+        <span class="tile-tag">Patterns</span>
+      </div>
+    </div>
+
+    <!-- Tile 4: Data Viz -->
+    <div class="tile tile-amber" onclick="showPage('dataviz')">
+      <div class="tile-glow"></div>
+      <div class="tile-number">&#9632;&#9632;&#9632;</div>
+      <div class="tile-title">Data Visualization</div>
+      <div class="tile-desc">Extending the system into ag-Grid tables and Highcharts so data looks and feels native.</div>
+      <div class="tile-tags">
+        <span class="tile-tag">ag-Grid</span>
+        <span class="tile-tag">Highcharts</span>
+        <span class="tile-tag">Color Guidance</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <strong>MEFF V2</strong> · Brenna Stevens, Global Design System Lead · NIQ · March 2026
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: POC
+     ═══════════════════════════════════════════════ -->
+<div id="page-poc" class="page">
+
+  <div class="detail-header">
+    <button class="back-btn" onclick="showPage('home')">&#8592;</button>
+    <h1 style="color: var(--green);">Proof of Concept</h1>
+  </div>
+
+  <div class="detail-body">
+
+    <!-- How it works -->
+    <div class="detail-section">
+      <div class="detail-section-title">
+        <h2>How It Works</h2>
+        <div class="line"></div>
+      </div>
+      <div class="card" style="padding: 36px;">
+        <div class="arch-flow">
+          <div class="arch-node n-blue">spec.json<small>source of truth</small></div>
+          <div class="arch-arrow">+</div>
+          <div class="arch-node n-purple">Semantic Tokens<small>OKLCH color system</small></div>
+          <div class="arch-arrow">+</div>
+          <div class="arch-node n-amber">CLAUDE.md<small>AI instructions</small></div>
+        </div>
+        <div class="arch-arrow-down" style="text-align:center;">&#8595;</div>
+        <div class="arch-flow" style="padding-top: 8px;">
+          <div class="arch-node n-green">Angular</div>
+          <div class="arch-node n-green">React</div>
+          <div class="arch-node n-green">Vue</div>
+          <div class="arch-node n-green">Web Components</div>
+        </div>
+        <div class="arch-note">Maintain specs, not code. Fix the spec, regenerate in every framework.</div>
+      </div>
+    </div>
+
+    <!-- What we proved -->
+    <div class="detail-section">
+      <div class="detail-section-title">
+        <h2>What We Proved</h2>
+        <div class="line"></div>
+      </div>
+      <div class="card-grid-2">
+        <div class="card">
+          <h3><span style="font-size:16px;">&#9889;</span> Framework-Agnostic Generation</h3>
+          <ul>
+            <li>Same spec.json produces correct components across 4 frameworks</li>
+            <li>Angular: standalone components, signal inputs, OnPush</li>
+            <li>React: functional components, TypeScript, CVA variants</li>
+            <li>Vue: Composition API, script setup, defineProps</li>
+            <li>Web Components: Lit, light DOM, custom element registration</li>
+            <li>No parallel codebases — CLAUDE.md handles framework patterns</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><span style="font-size:16px;">&#127912;</span> Multi-Product Theming</h3>
+          <ul>
+            <li>Components use semantic tokens, never raw colors</li>
+            <li>Swap a CSS theme file — components re-skin automatically</li>
+            <li>MEFF to Discover swap validated with zero component changes</li>
+            <li>OKLCH algorithm generates accessible palettes from seed values</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><span style="font-size:16px;">&#128203;</span> Spec-as-Source-of-Truth</h3>
+          <ul>
+            <li>5 structured spec.json contracts define component APIs</li>
+            <li>Wrong output? Update the spec, regenerate — don't hand-edit</li>
+            <li>Specs include props, states, a11y rules, usage guidelines</li>
+            <li>Machine-readable format any AI tool can consume</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><span style="font-size:16px;">&#129302;</span> AI as Infrastructure</h3>
+          <ul>
+            <li>Claude Code generates correct UI from specs + CLAUDE.md alone</li>
+            <li>Design system becomes an API for LLMs</li>
+            <li>Positions Athena as the structured data layer for AI-first products</li>
+            <li>Works today — not a future aspiration</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- POC components -->
+    <div class="detail-section">
+      <div class="detail-section-title">
+        <h2>POC Components</h2>
+        <div class="line"></div>
+      </div>
+      <div class="card" style="padding: 24px;">
+        <div style="display:flex; gap:12px; flex-wrap: wrap;">
+          <div class="comp-chip" style="flex:1; min-width: 150px;">
+            <span class="dot" style="background: var(--green);"></span>
+            Button
+            <span class="status" style="color: var(--green);">Validated</span>
+          </div>
+          <div class="comp-chip" style="flex:1; min-width: 150px;">
+            <span class="dot" style="background: var(--green);"></span>
+            Input / TextField
+            <span class="status" style="color: var(--green);">Validated</span>
+          </div>
+          <div class="comp-chip" style="flex:1; min-width: 150px;">
+            <span class="dot" style="background: var(--green);"></span>
+            Card
+            <span class="status" style="color: var(--green);">Validated</span>
+          </div>
+          <div class="comp-chip" style="flex:1; min-width: 150px;">
+            <span class="dot" style="background: var(--green);"></span>
+            Badge / Tag
+            <span class="status" style="color: var(--green);">Validated</span>
+          </div>
+          <div class="comp-chip" style="flex:1; min-width: 150px;">
+            <span class="dot" style="background: var(--green);"></span>
+            Data Table Row
+            <span class="status" style="color: var(--green);">Validated</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Before / After -->
+    <div class="detail-section">
+      <div class="detail-section-title">
+        <h2>The Shift</h2>
+        <div class="line"></div>
+      </div>
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr;">
+          <div style="padding: 28px; border-right: 1px solid var(--border);">
+            <div class="card-label" style="color: var(--text-muted);">Before</div>
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.7;">
+              Maintain separate Angular and React libraries. Every fix duplicated. Every component built twice. AI generates inconsistent UI. Adding a framework means starting over.
+            </p>
+          </div>
+          <div style="padding: 28px;">
+            <div class="card-label" style="color: var(--green);">After — MEFF V2</div>
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.7;">
+              Maintain specs and tokens. AI generates in any framework. One fix propagates everywhere. New frameworks cost instructions, not rebuilds. <strong style="color: var(--text-primary);">40-60% maintenance reduction.</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: TIMELINE
+     ═══════════════════════════════════════════════ -->
+<div id="page-timeline" class="page">
+
+  <div class="detail-header">
+    <button class="back-btn" onclick="showPage('home')">&#8592;</button>
+    <h1 style="color: var(--blue);">Timeline &amp; Milestones</h1>
+  </div>
+
+  <div class="detail-body">
+
+    <!-- Phase summary cards -->
+    <div class="detail-section">
+      <div style="display: flex; gap: 12px; margin-bottom: 28px;">
+        <div class="card" style="flex:1; text-align:center; border-color: rgba(77,124,255,0.2);">
+          <div style="font-size: 24px; font-weight: 900; color: var(--blue); letter-spacing: -1px;">Weeks 1–4</div>
+          <div style="font-size: 11px; font-weight: 600; color: var(--blue); letter-spacing: 0.5px; margin-top: 4px;">PHASE 1 · FOUNDATION</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Harden specs, scale tokens, validate top 15</div>
+        </div>
+        <div class="card" style="flex:1; text-align:center; border-color: rgba(139,92,246,0.2);">
+          <div style="font-size: 24px; font-weight: 900; color: var(--purple); letter-spacing: -1px;">Weeks 5–10</div>
+          <div style="font-size: 11px; font-weight: 600; color: var(--purple); letter-spacing: 0.5px; margin-top: 4px;">PHASE 2 · FULL LIBRARY</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">All components, themes, Storybook, quality</div>
+        </div>
+        <div class="card" style="flex:1; text-align:center; border-color: rgba(245,158,11,0.2);">
+          <div style="font-size: 24px; font-weight: 900; color: var(--amber); letter-spacing: -1px;">Weeks 11–14</div>
+          <div style="font-size: 11px; font-weight: 600; color: var(--amber); letter-spacing: 0.5px; margin-top: 4px;">PHASE 3 · ADOPTION</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Training, first deploy, monitor & iterate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gantt -->
+    <div class="detail-section">
+      <div class="detail-section-title">
+        <h2>Swimlanes</h2>
+        <div class="line"></div>
+      </div>
+      <div class="timeline-wrap">
+        <div class="tl-grid">
+          <!-- Weeks -->
+          <div class="tl-corner"></div>
+          <div class="tl-week">POC</div>
+          <div class="tl-week">W1</div><div class="tl-week">W2</div><div class="tl-week">W3</div><div class="tl-week">W4</div>
+          <div class="tl-week">W5</div><div class="tl-week">W6</div><div class="tl-week">W7</div><div class="tl-week">W8</div>
+          <div class="tl-week">W9</div><div class="tl-week">W10</div><div class="tl-week">W11</div><div class="tl-week">W12</div><div class="tl-week">W13</div>
+
+          <!-- Phase bars -->
+          <div class="tl-phase-spacer"></div>
+          <div class="tl-phase p1">Phase 1 · Foundation</div>
+          <div class="tl-phase p2">Phase 2 · Full Library</div>
+          <div class="tl-phase p3">Phase 3 · Adoption</div>
+
+          <!-- Row: Component Specs -->
+          <div class="tl-label">Component Specs</div>
+          <div class="tl-bar b-done" style="grid-column:2/3;">5 POC &#10003;</div>
+          <div class="tl-bar b-blue" style="grid-column:3/6;">+10 → top 15 specs</div>
+          <div class="tl-bar b-purple" style="grid-column:6/11;">Full MEFF component set</div>
+          <div class="tl-empty" style="grid-column:11/16;"></div>
+
+          <!-- Row: Token System -->
+          <div class="tl-label">Token System</div>
+          <div class="tl-bar b-done" style="grid-column:2/3;">Colors &#10003;</div>
+          <div class="tl-bar b-blue" style="grid-column:3/5;">+ Spacing, type, elevation</div>
+          <div class="tl-empty" style="grid-column:5/16;"></div>
+
+          <!-- Row: AI Generation -->
+          <div class="tl-label">AI Generation</div>
+          <div class="tl-bar b-done" style="grid-column:2/3;">POC &#10003;</div>
+          <div class="tl-empty" style="grid-column:3/4;"></div>
+          <div class="tl-bar b-blue" style="grid-column:4/6;">Validate top 15</div>
+          <div class="tl-bar b-purple" style="grid-column:6/11;">Full library generation</div>
+          <div class="tl-empty" style="grid-column:11/16;"></div>
+
+          <!-- Row: Themes -->
+          <div class="tl-label">Product Themes</div>
+          <div class="tl-bar b-done" style="grid-column:2/3;">MEFF &#10003;</div>
+          <div class="tl-empty" style="grid-column:3/6;"></div>
+          <div class="tl-bar b-purple" style="grid-column:6/8;">Discover</div>
+          <div class="tl-bar b-purple" style="grid-column:8/10;">Activate</div>
+          <div class="tl-empty" style="grid-column:10/16;"></div>
+
+          <!-- Row: Data Viz -->
+          <div class="tl-label">Data Viz Theming</div>
+          <div class="tl-bar b-done" style="grid-column:2/3;">Colors &#10003;</div>
+          <div class="tl-empty" style="grid-column:3/5;"></div>
+          <div class="tl-bar b-cyan" style="grid-column:5/8;">ag-Grid + Highcharts themes</div>
+          <div class="tl-bar b-cyan" style="grid-column:8/11; opacity:0.7;">Patterns + docs</div>
+          <div class="tl-empty" style="grid-column:11/16;"></div>
+
+          <!-- Row: Storybook -->
+          <div class="tl-label">Storybook</div>
+          <div class="tl-empty" style="grid-column:2/7;"></div>
+          <div class="tl-bar b-purple" style="grid-column:7/11;">Setup + stories + theme switcher</div>
+          <div class="tl-empty" style="grid-column:11/16;"></div>
+
+          <!-- Row: Quality -->
+          <div class="tl-label">Quality &amp; A11y</div>
+          <div class="tl-empty" style="grid-column:2/5;"></div>
+          <div class="tl-bar b-rose" style="grid-column:5/6;">Audit</div>
+          <div class="tl-empty" style="grid-column:6/10;"></div>
+          <div class="tl-bar b-rose" style="grid-column:10/12;">Full audit</div>
+          <div class="tl-empty" style="grid-column:12/16;"></div>
+
+          <!-- Row: Training -->
+          <div class="tl-label">Training</div>
+          <div class="tl-empty" style="grid-column:2/12;"></div>
+          <div class="tl-bar b-amber" style="grid-column:12/15;">Workshops + pairing</div>
+          <div class="tl-empty" style="grid-column:15/16;"></div>
+
+          <!-- Row: Production -->
+          <div class="tl-label">Production</div>
+          <div class="tl-empty" style="grid-column:2/13;"></div>
+          <div class="tl-bar b-amber" style="grid-column:13/16;">First deploy + monitor</div>
+        </div>
+
+        <!-- Milestones -->
+        <div class="tl-milestones">
+          <div class="tl-ms-label">Milestones</div>
+          <div class="tl-ms" style="grid-column:2;">
+            <div class="tl-ms-diamond" style="background: var(--green);"></div>
+            <div class="tl-ms-text" style="color: var(--green);">POC Complete</div>
+            <div class="tl-ms-week">Q1 2026</div>
+          </div>
+          <div style="grid-column:3/5;"></div>
+          <div class="tl-ms" style="grid-column:5;">
+            <div class="tl-ms-diamond" style="background: var(--blue);"></div>
+            <div class="tl-ms-text" style="color: var(--blue);">Top 15 Validated</div>
+            <div class="tl-ms-week">Week 4</div>
+          </div>
+          <div style="grid-column:6/8;"></div>
+          <div class="tl-ms" style="grid-column:8;">
+            <div class="tl-ms-diamond" style="background: var(--purple);"></div>
+            <div class="tl-ms-text" style="color: var(--purple);">Stakeholder Demo</div>
+            <div class="tl-ms-week">Week 7</div>
+          </div>
+          <div style="grid-column:9/11;"></div>
+          <div class="tl-ms" style="grid-column:11;">
+            <div class="tl-ms-diamond" style="background: var(--purple);"></div>
+            <div class="tl-ms-text" style="color: var(--purple);">Full Library</div>
+            <div class="tl-ms-week">Week 10</div>
+          </div>
+          <div style="grid-column:12/14;"></div>
+          <div class="tl-ms" style="grid-column:14;">
+            <div class="tl-ms-diamond" style="background: var(--amber);"></div>
+            <div class="tl-ms-text" style="color: var(--amber);">First Deploy</div>
+            <div class="tl-ms-week">Week 13</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: DELIVERABLES
+     ═══════════════════════════════════════════════ -->
+<div id="page-deliverables" class="page">
+
+  <div class="detail-header">
+    <button class="back-btn" onclick="showPage('home')">&#8592;</button>
+    <h1 style="color: var(--purple);">Total Deliverables</h1>
+  </div>
+
+  <div class="detail-body">
+
+    <!-- Counts -->
+    <div class="detail-section">
+      <div class="deliverable-row">
+        <div class="del-count-card">
+          <div class="del-count" style="color: var(--purple);">40+</div>
+          <div class="del-count-label">UI Components</div>
+        </div>
+        <div class="del-count-card">
+          <div class="del-count" style="color: var(--blue);">5</div>
+          <div class="del-count-label">Token Categories</div>
+        </div>
+        <div class="del-count-card">
+          <div class="del-count" style="color: var(--amber);">3</div>
+          <div class="del-count-label">Product Themes</div>
+        </div>
+        <div class="del-count-card">
+          <div class="del-count" style="color: var(--green);">4</div>
+          <div class="del-count-label">Framework Targets</div>
+        </div>
+        <div class="del-count-card">
+          <div class="del-count" style="color: var(--cyan);">2</div>
+          <div class="del-count-label">Data Viz Libraries</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Components breakdown -->
+    <div class="detail-section">
+      <div class="detail-section-title">
+        <h2>Components</h2>
+        <div class="line"></div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <div class="card-label" style="color: var(--green); padding: 0 0 10px 4px;">POC — Validated</div>
+        <div class="component-grid">
+          <div class="comp-chip"><span class="dot" style="background:var(--green);"></span>Button<span class="status" style="color:var(--green);">Done</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--green);"></span>Input / TextField<span class="status" style="color:var(--green);">Done</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--green);"></span>Card<span class="status" style="color:var(--green);">Done</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--green);"></span>Badge / Tag<span class="status" style="color:var(--green);">Done</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--green);"></span>Data Table Row<span class="status" style="color:var(--green);">Done</span></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <div class="card-label" style="color: var(--blue); padding: 0 0 10px 4px;">Phase 1 — Top 15</div>
+        <div class="component-grid">
+          <div class="comp-chip"><span class="dot" style="background:var(--blue);"></span>Dropdown / Select<span class="status">Sprint 1</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--blue);"></span>Modal / Dialog<span class="status">Sprint 1</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--blue);"></span>Tooltip<span class="status">Sprint 1</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--blue);"></span>Tabs<span class="status">Sprint 1</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--blue);"></span>Breadcrumb<span class="status">Sprint 1</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--blue);"></span>Checkbox<span class="status">Sprint 2</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--blue);"></span>Radio<span class="status">Sprint 2</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--blue);"></span>Toggle / Switch<span class="status">Sprint 2</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--blue);"></span>Alert / Banner<span class="status">Sprint 2</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--blue);"></span>Avatar<span class="status">Sprint 2</span></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <div class="card-label" style="color: var(--purple); padding: 0 0 10px 4px;">Phase 2 — Full Library</div>
+        <div class="component-grid">
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Accordion<span class="status">Sprint 3</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Pagination<span class="status">Sprint 3</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Progress Bar<span class="status">Sprint 3</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Slider / Range<span class="status">Sprint 3</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Stepper<span class="status">Sprint 3</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Chip / Pill<span class="status">Sprint 3</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Popover<span class="status">Sprint 4</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Sidebar / Nav<span class="status">Sprint 4</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Top Bar<span class="status">Sprint 4</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Date Picker<span class="status">Sprint 4</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>File Upload<span class="status">Sprint 4</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Skeleton Loader<span class="status">Sprint 4</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Toast / Snackbar<span class="status">Sprint 4</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Spinner<span class="status">Sprint 4</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Divider<span class="status">Sprint 5</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Empty State<span class="status">Sprint 5</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Search Input<span class="status">Sprint 5</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Textarea<span class="status">Sprint 5</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Icon Set<span class="status">Sprint 5</span></div>
+          <div class="comp-chip"><span class="dot" style="background:var(--purple);"></span>Form Layout<span class="status">Sprint 5</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Styles / Tokens -->
+    <div class="detail-section">
+      <div class="detail-section-title">
+        <h2>Design Tokens</h2>
+        <div class="line"></div>
+      </div>
+      <div class="card-grid-3" style="margin-bottom: 0;">
+        <div class="card">
+          <h3 style="color: var(--green);">&#10003; Color</h3>
+          <ul>
+            <li>OKLCH algorithmic scales</li>
+            <li>Semantic token layer</li>
+            <li>Dark mode support</li>
+            <li>Data viz palette</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="color: var(--blue);">&#9711; Typography</h3>
+          <ul>
+            <li>Type scale (font-size steps)</li>
+            <li>Font weight tokens</li>
+            <li>Line-height system</li>
+            <li>Responsive scaling</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="color: var(--blue);">&#9711; Spacing &amp; Layout</h3>
+          <ul>
+            <li>4px base grid scale</li>
+            <li>Component padding tokens</li>
+            <li>Elevation / shadow system</li>
+            <li>Border radius tokens</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Themes -->
+    <div class="detail-section">
+      <div class="detail-section-title">
+        <h2>Product Themes</h2>
+        <div class="line"></div>
+      </div>
+      <div style="display: flex; gap: 12px;">
+        <div class="card" style="flex:1; text-align: center; border-color: rgba(139,92,246,0.2);">
+          <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#4d7cff,#3b5ec2);margin:0 auto 10px;"></div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:2px;">MEFF</div>
+          <div style="font-size:11px; color:var(--text-muted);">Primary product theme</div>
+          <div class="viz-status done" style="margin-top:10px; display:inline-flex;">&#10003; Active</div>
+        </div>
+        <div class="card" style="flex:1; text-align: center;">
+          <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#06b6d4,#0891b2);margin:0 auto 10px;"></div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:2px;">Discover</div>
+          <div style="font-size:11px; color:var(--text-muted);">Phase 2 — Sprint 3</div>
+          <div class="viz-status planned" style="margin-top:10px; display:inline-flex;">Planned</div>
+        </div>
+        <div class="card" style="flex:1; text-align: center;">
+          <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#d97706);margin:0 auto 10px;"></div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:2px;">Activate</div>
+          <div style="font-size:11px; color:var(--text-muted);">Phase 2 — Sprint 4</div>
+          <div class="viz-status planned" style="margin-top:10px; display:inline-flex;">Planned</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Frameworks -->
+    <div class="detail-section">
+      <div class="detail-section-title">
+        <h2>Framework Targets</h2>
+        <div class="line"></div>
+      </div>
+      <div style="display: flex; gap: 12px;">
+        <div class="card" style="flex:1; text-align:center; border-color: rgba(34,197,94,0.2);">
+          <div style="font-size: 28px; font-weight: 900; color: var(--green);">Angular</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Standalone, signal inputs, OnPush</div>
+          <div class="viz-status done" style="margin-top:10px; display:inline-flex;">&#10003; POC Validated</div>
+        </div>
+        <div class="card" style="flex:1; text-align:center; border-color: rgba(34,197,94,0.2);">
+          <div style="font-size: 28px; font-weight: 900; color: var(--green);">React</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Functional, TypeScript, CVA</div>
+          <div class="viz-status done" style="margin-top:10px; display:inline-flex;">&#10003; POC Validated</div>
+        </div>
+        <div class="card" style="flex:1; text-align:center; border-color: rgba(34,197,94,0.2);">
+          <div style="font-size: 28px; font-weight: 900; color: var(--green);">Vue</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Composition API, script setup</div>
+          <div class="viz-status done" style="margin-top:10px; display:inline-flex;">&#10003; POC Validated</div>
+        </div>
+        <div class="card" style="flex:1; text-align:center; border-color: rgba(34,197,94,0.2);">
+          <div style="font-size: 28px; font-weight: 900; color: var(--green);">Web Components</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Lit, light DOM</div>
+          <div class="viz-status done" style="margin-top:10px; display:inline-flex;">&#10003; POC Validated</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     PAGE: DATA VIZ
+     ═══════════════════════════════════════════════ -->
+<div id="page-dataviz" class="page">
+
+  <div class="detail-header">
+    <button class="back-btn" onclick="showPage('home')">&#8592;</button>
+    <h1 style="color: var(--amber);">Data Visualization</h1>
+  </div>
+
+  <div class="detail-body">
+
+    <!-- Hero statement -->
+    <div class="detail-section">
+      <div class="viz-hero-card">
+        <h3>Data should feel native to the system — not bolted on.</h3>
+        <p>
+          We're expanding our existing data visualization color guidance into full theming support for <strong style="color:var(--text-primary);">ag-Grid</strong> tables and <strong style="color:var(--text-primary);">Highcharts</strong> — so every chart, table, and data surface looks, feels, and behaves as part of the design system. Same tokens. Same semantic colors. Same brand consistency.
+        </p>
+      </div>
+    </div>
+
+    <!-- Three layers -->
+    <div class="detail-section">
+      <div class="detail-section-title">
+        <h2>What We're Building</h2>
+        <div class="line"></div>
+      </div>
+      <div class="viz-layers">
+        <div class="viz-layer">
+          <div class="viz-layer-icon">&#127912;</div>
+          <h4>Color System</h4>
+          <p>Extending the OKLCH token palette with data-specific sequences — categorical palettes, sequential scales, diverging gradients, and semantic status colors tuned for charts and grids.</p>
+          <div class="tag-row">
+            <span class="sm-tag" style="color:var(--green);background:var(--green-dim);">Existing guidance</span>
+            <span class="sm-tag" style="color:var(--blue);background:var(--blue-dim);">Expanding</span>
+          </div>
+        </div>
+        <div class="viz-layer">
+          <div class="viz-layer-icon">&#128202;</div>
+          <h4>Highcharts Theme</h4>
+          <p>A complete Highcharts theme that maps to our semantic tokens — chart backgrounds, axis styling, tooltip design, series colors, legend treatment, and responsive breakpoints. Every chart type gets the system's look for free.</p>
+          <div class="tag-row">
+            <span class="sm-tag" style="color:var(--amber);background:rgba(245,158,11,0.1);">New</span>
+            <span class="sm-tag" style="color:var(--text-muted);background:rgba(82,82,106,0.12);">Phase 2</span>
+          </div>
+        </div>
+        <div class="viz-layer">
+          <div class="viz-layer-icon">&#128451;</div>
+          <h4>ag-Grid Theme</h4>
+          <p>Custom ag-Grid theme using our design tokens — row styling, header treatment, cell typography, selection states, sorting/filtering indicators, and conditional formatting that matches the system's status colors.</p>
+          <div class="tag-row">
+            <span class="sm-tag" style="color:var(--amber);background:rgba(245,158,11,0.1);">New</span>
+            <span class="sm-tag" style="color:var(--text-muted);background:rgba(82,82,106,0.12);">Phase 2</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How tokens flow to viz -->
+    <div class="detail-section">
+      <div class="detail-section-title">
+        <h2>Token Flow</h2>
+        <div class="line"></div>
+      </div>
+      <div class="card" style="padding: 32px;">
+        <div class="arch-flow">
+          <div class="arch-node n-purple">OKLCH Seed Colors<small>Brand palette</small></div>
+          <div class="arch-arrow">&#8594;</div>
+          <div class="arch-node n-blue">Semantic Tokens<small>surface, content, status</small></div>
+          <div class="arch-arrow">&#8594;</div>
+          <div class="arch-node n-amber" style="min-width:160px;">Data Viz Tokens<small>categorical, sequential, diverging</small></div>
+        </div>
+        <div class="arch-arrow-down" style="text-align:center;">&#8595;</div>
+        <div class="arch-flow" style="padding-top:8px;">
+          <div class="arch-node n-green">ag-Grid Theme<small>CSS custom properties</small></div>
+          <div class="arch-node n-green">Highcharts Theme<small>theme config object</small></div>
+          <div class="arch-node n-green">UI Components<small>Tailwind classes</small></div>
+        </div>
+        <div class="arch-note">One token change ripples through UI components, grids, and charts simultaneously.</div>
+      </div>
+    </div>
+
+    <!-- Coverage matrix -->
+    <div class="detail-section">
+      <div class="detail-section-title">
+        <h2>Coverage Plan</h2>
+        <div class="line"></div>
+      </div>
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <table class="viz-coverage-table">
+          <thead>
+            <tr>
+              <th>Area</th>
+              <th>What's Covered</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="area">Data viz color palette</td>
+              <td>Categorical, sequential, and diverging color sequences for charts</td>
+              <td><span class="viz-status done">&#10003; Existing</span></td>
+            </tr>
+            <tr>
+              <td class="area">Highcharts — Series colors</td>
+              <td>Default series palette mapped to semantic data viz tokens</td>
+              <td><span class="viz-status in-progress">Phase 2</span></td>
+            </tr>
+            <tr>
+              <td class="area">Highcharts — Chrome</td>
+              <td>Axes, gridlines, labels, legends, tooltips styled to system</td>
+              <td><span class="viz-status in-progress">Phase 2</span></td>
+            </tr>
+            <tr>
+              <td class="area">Highcharts — Interaction</td>
+              <td>Hover, selection, drill-down states using interactive tokens</td>
+              <td><span class="viz-status in-progress">Phase 2</span></td>
+            </tr>
+            <tr>
+              <td class="area">ag-Grid — Row styling</td>
+              <td>Row backgrounds, alternating rows, selection, hover states</td>
+              <td><span class="viz-status in-progress">Phase 2</span></td>
+            </tr>
+            <tr>
+              <td class="area">ag-Grid — Headers</td>
+              <td>Column header styling, sort indicators, filter icons</td>
+              <td><span class="viz-status in-progress">Phase 2</span></td>
+            </tr>
+            <tr>
+              <td class="area">ag-Grid — Cells</td>
+              <td>Typography, alignment, conditional formatting, status badges</td>
+              <td><span class="viz-status in-progress">Phase 2</span></td>
+            </tr>
+            <tr>
+              <td class="area">ag-Grid — Interaction</td>
+              <td>Cell editing, range selection, context menus, pinned columns</td>
+              <td><span class="viz-status in-progress">Phase 2</span></td>
+            </tr>
+            <tr>
+              <td class="area">Multi-product themes</td>
+              <td>MEFF, Discover, Activate themes for both ag-Grid and Highcharts</td>
+              <td><span class="viz-status planned">Phase 2–3</span></td>
+            </tr>
+            <tr>
+              <td class="area">Usage patterns &amp; docs</td>
+              <td>Best practices for chart type selection, data density, a11y</td>
+              <td><span class="viz-status planned">Phase 2–3</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Why this matters -->
+    <div class="detail-section">
+      <div class="detail-section-title">
+        <h2>Why This Matters</h2>
+        <div class="line"></div>
+      </div>
+      <div class="card-grid-2">
+        <div class="card">
+          <h3 style="color:var(--amber);">Data is the product</h3>
+          <ul>
+            <li>NIQ products are data-heavy — grids and charts are the core experience</li>
+            <li>If data surfaces don't match the system, users notice the inconsistency first</li>
+            <li>Themed ag-Grid and Highcharts close the biggest visual gap</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--amber);">One token change, everywhere</h3>
+          <ul>
+            <li>Brand refresh? Update seed colors once — buttons, grids, and charts update together</li>
+            <li>New product theme? One theme file covers UI + data viz + tables</li>
+            <li>Dark mode? Token layer handles all three surfaces in one pass</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     NAVIGATION JS
+     ═══════════════════════════════════════════════ -->
+<script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + id);
+  if (target) {
+    target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+// Handle browser back button
+window.addEventListener('hashchange', () => {
+  const page = location.hash.replace('#', '') || 'home';
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + page);
+  if (target) target.classList.add('active');
+});
+
+// Update hash on navigate
+const origShowPage = showPage;
+showPage = function(id) {
+  location.hash = id === 'home' ? '' : id;
+  origShowPage(id);
+};
+</script>
+
+</body>
 </html>
