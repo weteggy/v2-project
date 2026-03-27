@@ -674,6 +674,181 @@
     .deliverable-row { flex-direction: column; }
     .arch-flow { flex-direction: column; }
   }
+
+  /* ═══════════════════════════════════════
+     ATHENA CATEGORICAL COLOR TOKENS
+     ═══════════════════════════════════════ */
+  :root {
+    --cat-1: #675895; --cat-2: #4697E2; --cat-3: #CB487A; --cat-4: #FFB500;
+    --cat-5: #204188; --cat-6: #F06E2D; --cat-7: #03A577; --cat-8: #3265D2;
+    --cat-9: #CA5113; --cat-10: #0C644A; --cat-11: #A0B2F3; --cat-12: #B37F01;
+    --cat-13: #83304E; --cat-14: #23A9B2; --cat-15: #2B2F61; --cat-16: #4D9300;
+  }
+
+  /* ═══════════════════════════════════════
+     DATA VIZ STYLEGUIDE — SCOPED STYLES
+     ═══════════════════════════════════════ */
+  .viz-sg .sg-badge {
+    display: inline-block;
+    background: rgba(103,88,149,0.15);
+    color: var(--cat-1);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 12px;
+  }
+  .viz-sg .sg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .viz-sg .sg-grid-full { grid-column: 1 / -1; }
+  .viz-sg .sg-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .viz-sg .sg-card-header { padding: 20px 24px 0; }
+  .viz-sg .sg-card-header h3 { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+  .viz-sg .sg-card-header p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .viz-sg .sg-card-body { padding: 20px 24px 24px; }
+  .viz-sg .sg-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+  .viz-sg .sg-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; color: var(--text-secondary); }
+  .viz-sg .sg-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .viz-sg .sg-chart-container { position: relative; }
+  .viz-sg .sg-y-axis { position: absolute; left: 0; top: 0; bottom: 28px; width: 36px; display: flex; flex-direction: column; justify-content: space-between; }
+  .viz-sg .sg-y-label { font-size: 10px; color: var(--text-muted); text-align: right; font-variant-numeric: tabular-nums; }
+  .viz-sg .sg-x-axis { display: flex; justify-content: space-around; padding-left: 40px; margin-top: 8px; }
+  .viz-sg .sg-x-label { font-size: 10px; color: var(--text-muted); font-weight: 500; }
+  .viz-sg .sg-gridlines { position: absolute; left: 40px; right: 0; top: 0; bottom: 28px; }
+  .viz-sg .sg-gridline { border-bottom: 1px solid var(--border); position: absolute; left: 0; right: 0; }
+  /* Bar chart */
+  .viz-sg .sg-bar-chart { display: flex; align-items: flex-end; gap: 16px; height: 220px; padding-left: 40px; position: relative; }
+  .viz-sg .sg-bar-group { flex: 1; display: flex; align-items: flex-end; gap: 3px; height: 100%; }
+  .viz-sg .sg-bar { flex: 1; border-radius: 4px 4px 0 0; min-width: 0; transition: opacity 0.2s; position: relative; }
+  .viz-sg .sg-bar:hover { opacity: 0.85; }
+  .viz-sg .sg-bar-value { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 10px; font-weight: 600; color: var(--text-secondary); opacity: 0; transition: opacity 0.2s; white-space: nowrap; }
+  .viz-sg .sg-bar:hover .sg-bar-value { opacity: 1; }
+  /* Area chart */
+  .viz-sg .sg-area-chart-wrapper { position: relative; padding-left: 40px; }
+  /* Donut */
+  .viz-sg .sg-donut-wrapper { display: flex; align-items: center; gap: 32px; }
+  .viz-sg .sg-donut-legend { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .viz-sg .sg-donut-legend-item { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+  .viz-sg .sg-donut-legend-color { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+  .viz-sg .sg-donut-legend-label { flex: 1; color: var(--text-secondary); font-weight: 500; }
+  .viz-sg .sg-donut-legend-value { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  /* Line chart */
+  .viz-sg .sg-line-chart-wrapper { position: relative; padding-left: 40px; }
+  /* Stacked bar */
+  .viz-sg .sg-stacked-row { display: flex; align-items: center; gap: 12px; }
+  .viz-sg .sg-stacked-label { width: 60px; font-size: 12px; font-weight: 500; color: var(--text-secondary); text-align: right; flex-shrink: 0; }
+  .viz-sg .sg-stacked-track { flex: 1; height: 28px; display: flex; border-radius: 6px; overflow: hidden; }
+  .viz-sg .sg-stacked-segment { height: 100%; transition: opacity 0.2s; position: relative; }
+  .viz-sg .sg-stacked-segment:hover { opacity: 0.85; }
+  /* Transparency showcase */
+  .viz-sg .sg-transparency-showcase { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; }
+  .viz-sg .sg-transparency-stack { display: flex; flex-direction: column; gap: 3px; }
+  .viz-sg .sg-transparency-swatch { height: 40px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 600; font-family: monospace; }
+  .viz-sg .sg-transparency-label { font-size: 10px; font-weight: 600; text-align: center; color: var(--text-secondary); margin-top: 4px; }
+  /* Tooltip demo */
+  .viz-sg .sg-tooltip-demo { background: var(--text-primary); color: var(--bg); border-radius: 10px; padding: 12px 16px; display: inline-block; font-size: 12px; line-height: 1.6; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+  .viz-sg .sg-tooltip-demo .tt-label { color: rgba(234,234,242,0.5); font-size: 11px; }
+  .viz-sg .sg-tooltip-demo .tt-value { font-weight: 600; font-size: 14px; }
+  .viz-sg .sg-tooltip-demo .tt-row { display: flex; align-items: center; gap: 8px; }
+  .viz-sg .sg-tooltip-demo .tt-dot { width: 8px; height: 8px; border-radius: 50%; }
+  /* ═══════════════════════════════════════
+     LIGHT MODE OVERRIDES (charts only)
+     ═══════════════════════════════════════ */
+  .viz-sg.light-mode {
+    background: #F0F1F6;
+    border-radius: 20px;
+    padding: 32px;
+    margin: -16px;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .viz-sg.light-mode .detail-section-title h2 { color: #1A1A2E; }
+  .viz-sg.light-mode .detail-section-title .line { background: #E2E4EE; }
+  .viz-sg.light-mode p { color: #5A5A7A !important; }
+  .viz-sg.light-mode .sg-card {
+    background: #FFFFFF;
+    border-color: #E2E4EE;
+  }
+  .viz-sg.light-mode .sg-card-header h3 { color: #1A1A2E; }
+  .viz-sg.light-mode .sg-card-header p { color: #9090AA; }
+  .viz-sg.light-mode .sg-legend-item { color: #5A5A7A; }
+  .viz-sg.light-mode .sg-y-label { color: #9090AA; }
+  .viz-sg.light-mode .sg-x-label { color: #9090AA; }
+  .viz-sg.light-mode .sg-gridline { border-color: #EBEDF5; }
+  .viz-sg.light-mode .sg-bar-value { color: #5A5A7A; }
+  .viz-sg.light-mode .sg-donut-legend-label { color: #5A5A7A; }
+  .viz-sg.light-mode .sg-donut-legend-value { color: #1A1A2E; }
+  .viz-sg.light-mode .sg-stacked-label { color: #5A5A7A; }
+  .viz-sg.light-mode .sg-transparency-label { color: #5A5A7A; }
+  /* Donut center + text */
+  .viz-sg.light-mode svg circle[fill="var(--bg-card)"] { fill: #FFFFFF; }
+  .viz-sg.light-mode svg text[fill="var(--text-primary)"] { fill: #1A1A2E; }
+  .viz-sg.light-mode svg text[fill="var(--text-muted)"] { fill: #9090AA; }
+  /* SVG data point strokes */
+  .viz-sg.light-mode svg circle[stroke="var(--bg-card)"] { stroke: #FFFFFF; }
+  /* Tooltip — invert for light bg */
+  .viz-sg.light-mode .sg-tooltip-demo {
+    background: #1A1A2E;
+    color: #fff;
+  }
+  /* KPI cards */
+  .viz-sg.light-mode [style*="border:1px solid var(--border)"] {
+    border-color: #E2E4EE !important;
+  }
+  /* Transparency usage boxes */
+  .viz-sg.light-mode [style*="background:var(--bg-inner)"] {
+    background: #F5F6FA !important;
+  }
+  .viz-sg.light-mode [style*="color:var(--text-secondary)"] { color: #5A5A7A !important; }
+  .viz-sg.light-mode [style*="color:var(--text-muted)"] { color: #9090AA !important; }
+  /* KPI big numbers */
+  .viz-sg.light-mode [style*="font-size:24px"] { color: #1A1A2E; }
+  /* Toggle button */
+  .sg-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg-inner);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.3px;
+  }
+  .sg-theme-toggle:hover {
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+    background: var(--bg-card-hover);
+  }
+  .sg-theme-toggle .toggle-icon { font-size: 15px; transition: transform 0.3s; }
+  .viz-sg.light-mode .sg-theme-toggle {
+    background: #FFFFFF;
+    border-color: #E2E4EE;
+    color: #5A5A7A;
+  }
+  .viz-sg.light-mode .sg-theme-toggle:hover {
+    border-color: #C8CAD6;
+    color: #1A1A2E;
+  }
+  /* Responsive */
+  @media (max-width: 900px) {
+    .viz-sg .sg-grid { grid-template-columns: 1fr; }
+    .viz-sg .sg-transparency-showcase { grid-template-columns: repeat(4, 1fr); }
+  }
 </style>
 </head>
 <body>
@@ -1446,6 +1621,397 @@
       </div>
     </div>
 
+    <!-- ═══════════════════════════════════════
+         LIVE STYLEGUIDE — Chart Patterns
+         ═══════════════════════════════════════ -->
+    <div class="detail-section viz-sg">
+      <div class="detail-section-title" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+        <div>
+          <h2>Athena Color Styleguide — Live Chart Patterns</h2>
+          <div class="line"></div>
+        </div>
+        <button class="sg-theme-toggle" onclick="toggleChartTheme()">
+          <span class="toggle-icon" id="themeIcon">&#9790;</span>
+          <span id="themeLabel">Light Mode</span>
+        </button>
+      </div>
+      <p style="color:var(--text-secondary); margin-bottom:24px; font-size:14px;">
+        Chart patterns themed with Athena categorical color tokens, including transparency variants for layered and area-based visualizations.
+      </p>
+
+      <div class="sg-grid">
+
+        <!-- ======== GROUPED BAR CHART ======== -->
+        <div class="sg-card">
+          <div class="sg-card-header">
+            <h3>Grouped Bar Chart</h3>
+            <p>Categorical colors applied in sequence — full opacity for solid fills</p>
+          </div>
+          <div class="sg-card-body">
+            <div class="sg-legend">
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-1)"></div>Product A</div>
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-2)"></div>Product B</div>
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-3)"></div>Product C</div>
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-4)"></div>Product D</div>
+            </div>
+            <div class="sg-chart-container" style="height:250px; position:relative;">
+              <div class="sg-y-axis">
+                <div class="sg-y-label">800</div><div class="sg-y-label">600</div><div class="sg-y-label">400</div><div class="sg-y-label">200</div><div class="sg-y-label">0</div>
+              </div>
+              <div class="sg-gridlines">
+                <div class="sg-gridline" style="top:0%"></div><div class="sg-gridline" style="top:25%"></div><div class="sg-gridline" style="top:50%"></div><div class="sg-gridline" style="top:75%"></div><div class="sg-gridline" style="top:100%"></div>
+              </div>
+              <div class="sg-bar-chart">
+                <div class="sg-bar-group">
+                  <div class="sg-bar" style="height:65%; background:var(--cat-1);"><span class="sg-bar-value">520</span></div>
+                  <div class="sg-bar" style="height:48%; background:var(--cat-2);"><span class="sg-bar-value">384</span></div>
+                  <div class="sg-bar" style="height:35%; background:var(--cat-3);"><span class="sg-bar-value">280</span></div>
+                  <div class="sg-bar" style="height:28%; background:var(--cat-4);"><span class="sg-bar-value">224</span></div>
+                </div>
+                <div class="sg-bar-group">
+                  <div class="sg-bar" style="height:78%; background:var(--cat-1);"><span class="sg-bar-value">624</span></div>
+                  <div class="sg-bar" style="height:55%; background:var(--cat-2);"><span class="sg-bar-value">440</span></div>
+                  <div class="sg-bar" style="height:42%; background:var(--cat-3);"><span class="sg-bar-value">336</span></div>
+                  <div class="sg-bar" style="height:32%; background:var(--cat-4);"><span class="sg-bar-value">256</span></div>
+                </div>
+                <div class="sg-bar-group">
+                  <div class="sg-bar" style="height:82%; background:var(--cat-1);"><span class="sg-bar-value">656</span></div>
+                  <div class="sg-bar" style="height:60%; background:var(--cat-2);"><span class="sg-bar-value">480</span></div>
+                  <div class="sg-bar" style="height:50%; background:var(--cat-3);"><span class="sg-bar-value">400</span></div>
+                  <div class="sg-bar" style="height:38%; background:var(--cat-4);"><span class="sg-bar-value">304</span></div>
+                </div>
+                <div class="sg-bar-group">
+                  <div class="sg-bar" style="height:72%; background:var(--cat-1);"><span class="sg-bar-value">576</span></div>
+                  <div class="sg-bar" style="height:62%; background:var(--cat-2);"><span class="sg-bar-value">496</span></div>
+                  <div class="sg-bar" style="height:45%; background:var(--cat-3);"><span class="sg-bar-value">360</span></div>
+                  <div class="sg-bar" style="height:35%; background:var(--cat-4);"><span class="sg-bar-value">280</span></div>
+                </div>
+              </div>
+              <div class="sg-x-axis">
+                <span class="sg-x-label">Q1 2026</span><span class="sg-x-label">Q2 2026</span><span class="sg-x-label">Q3 2026</span><span class="sg-x-label">Q4 2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======== AREA CHART ======== -->
+        <div class="sg-card">
+          <div class="sg-card-header">
+            <h3>Area Chart — Transparency Fills</h3>
+            <p>Solid 2.5px stroke + gradient fill from 20% to 3% alpha</p>
+          </div>
+          <div class="sg-card-body">
+            <div class="sg-legend">
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-1)"></div>Channel A</div>
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-2)"></div>Channel B</div>
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-3)"></div>Channel C</div>
+            </div>
+            <div class="sg-chart-container" style="height:250px; position:relative;">
+              <div class="sg-y-axis">
+                <div class="sg-y-label">500</div><div class="sg-y-label">375</div><div class="sg-y-label">250</div><div class="sg-y-label">125</div><div class="sg-y-label">0</div>
+              </div>
+              <div class="sg-gridlines">
+                <div class="sg-gridline" style="top:0%"></div><div class="sg-gridline" style="top:25%"></div><div class="sg-gridline" style="top:50%"></div><div class="sg-gridline" style="top:75%"></div><div class="sg-gridline" style="top:100%"></div>
+              </div>
+              <div class="sg-area-chart-wrapper">
+                <svg viewBox="0 0 500 220" preserveAspectRatio="none" style="width:100%; height:220px; display:block;">
+                  <defs>
+                    <linearGradient id="dv-areaGrad1" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#675895" stop-opacity="0.25"/>
+                      <stop offset="100%" stop-color="#675895" stop-opacity="0.02"/>
+                    </linearGradient>
+                    <linearGradient id="dv-areaGrad2" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#4697E2" stop-opacity="0.25"/>
+                      <stop offset="100%" stop-color="#4697E2" stop-opacity="0.02"/>
+                    </linearGradient>
+                    <linearGradient id="dv-areaGrad3" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#CB487A" stop-opacity="0.25"/>
+                      <stop offset="100%" stop-color="#CB487A" stop-opacity="0.02"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0,88 C60,66 120,55 180,44 C240,33 320,22 400,33 L500,22 L500,220 L0,220 Z" fill="url(#dv-areaGrad1)"/>
+                  <path d="M0,132 C60,110 120,99 180,88 C240,77 320,66 400,55 L500,44 L500,220 L0,220 Z" fill="url(#dv-areaGrad2)"/>
+                  <path d="M0,176 C60,154 120,143 180,132 C240,121 320,110 400,99 L500,88 L500,220 L0,220 Z" fill="url(#dv-areaGrad3)"/>
+                  <path d="M0,88 C60,66 120,55 180,44 C240,33 320,22 400,33 L500,22" fill="none" stroke="#675895" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M0,132 C60,110 120,99 180,88 C240,77 320,66 400,55 L500,44" fill="none" stroke="#4697E2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M0,176 C60,154 120,143 180,132 C240,121 320,110 400,99 L500,88" fill="none" stroke="#CB487A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="0" cy="88" r="4" fill="#675895" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="200" cy="44" r="4" fill="#675895" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="400" cy="33" r="4" fill="#675895" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="500" cy="22" r="4" fill="#675895" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="0" cy="132" r="4" fill="#4697E2" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="200" cy="88" r="4" fill="#4697E2" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="400" cy="55" r="4" fill="#4697E2" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="500" cy="44" r="4" fill="#4697E2" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="0" cy="176" r="4" fill="#CB487A" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="200" cy="132" r="4" fill="#CB487A" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="400" cy="99" r="4" fill="#CB487A" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="500" cy="88" r="4" fill="#CB487A" stroke="var(--bg-card)" stroke-width="2"/>
+                </svg>
+              </div>
+              <div class="sg-x-axis" style="padding-left:40px;">
+                <span class="sg-x-label">Jan</span><span class="sg-x-label">Feb</span><span class="sg-x-label">Mar</span><span class="sg-x-label">Apr</span><span class="sg-x-label">May</span><span class="sg-x-label">Jun</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======== DONUT CHART ======== -->
+        <div class="sg-card">
+          <div class="sg-card-header">
+            <h3>Donut Chart</h3>
+            <p>Full-opacity segments with dark separator — first 6 categorical colors</p>
+          </div>
+          <div class="sg-card-body">
+            <div class="sg-donut-wrapper">
+              <svg width="200" height="200" viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="70" fill="none" stroke="var(--cat-1)" stroke-width="36" stroke-dasharray="140.74 299.08" stroke-dashoffset="110" />
+                <circle cx="100" cy="100" r="70" fill="none" stroke="var(--cat-2)" stroke-width="36" stroke-dasharray="105.56 334.26" stroke-dashoffset="-30.74" />
+                <circle cx="100" cy="100" r="70" fill="none" stroke="var(--cat-3)" stroke-width="36" stroke-dasharray="79.17 360.65" stroke-dashoffset="-136.3" />
+                <circle cx="100" cy="100" r="70" fill="none" stroke="var(--cat-4)" stroke-width="36" stroke-dasharray="57.18 382.64" stroke-dashoffset="-215.47" />
+                <circle cx="100" cy="100" r="70" fill="none" stroke="var(--cat-5)" stroke-width="36" stroke-dasharray="35.19 404.63" stroke-dashoffset="-272.65" />
+                <circle cx="100" cy="100" r="70" fill="none" stroke="var(--cat-6)" stroke-width="36" stroke-dasharray="21.99 417.83" stroke-dashoffset="-307.84" />
+                <circle cx="100" cy="100" r="52" fill="var(--bg-card)"/>
+                <text x="100" y="96" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="var(--text-primary)">2.4M</text>
+                <text x="100" y="114" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="var(--text-muted)">Total Units</text>
+              </svg>
+              <div class="sg-donut-legend">
+                <div class="sg-donut-legend-item"><div class="sg-donut-legend-color" style="background:var(--cat-1)"></div><span class="sg-donut-legend-label">Segment Alpha</span><span class="sg-donut-legend-value">32%</span></div>
+                <div class="sg-donut-legend-item"><div class="sg-donut-legend-color" style="background:var(--cat-2)"></div><span class="sg-donut-legend-label">Segment Beta</span><span class="sg-donut-legend-value">24%</span></div>
+                <div class="sg-donut-legend-item"><div class="sg-donut-legend-color" style="background:var(--cat-3)"></div><span class="sg-donut-legend-label">Segment Gamma</span><span class="sg-donut-legend-value">18%</span></div>
+                <div class="sg-donut-legend-item"><div class="sg-donut-legend-color" style="background:var(--cat-4)"></div><span class="sg-donut-legend-label">Segment Delta</span><span class="sg-donut-legend-value">13%</span></div>
+                <div class="sg-donut-legend-item"><div class="sg-donut-legend-color" style="background:var(--cat-5)"></div><span class="sg-donut-legend-label">Segment Epsilon</span><span class="sg-donut-legend-value">8%</span></div>
+                <div class="sg-donut-legend-item"><div class="sg-donut-legend-color" style="background:var(--cat-6)"></div><span class="sg-donut-legend-label">Other</span><span class="sg-donut-legend-value">5%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======== LINE CHART ======== -->
+        <div class="sg-card">
+          <div class="sg-card-header">
+            <h3>Multi-Series Line Chart</h3>
+            <p>Dash patterns as secondary encoding alongside color for accessibility (WCAG 1.4.1)</p>
+          </div>
+          <div class="sg-card-body">
+            <div class="sg-legend">
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-1)"></div>Metric A (solid)</div>
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-2)"></div>Metric B (solid)</div>
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-6)"></div>Metric C (dashed)</div>
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-7)"></div>Target (dotted)</div>
+            </div>
+            <div class="sg-chart-container" style="height:250px; position:relative;">
+              <div class="sg-y-axis">
+                <div class="sg-y-label">100</div><div class="sg-y-label">75</div><div class="sg-y-label">50</div><div class="sg-y-label">25</div><div class="sg-y-label">0</div>
+              </div>
+              <div class="sg-gridlines">
+                <div class="sg-gridline" style="top:0%"></div><div class="sg-gridline" style="top:25%"></div><div class="sg-gridline" style="top:50%"></div><div class="sg-gridline" style="top:75%"></div><div class="sg-gridline" style="top:100%"></div>
+              </div>
+              <div class="sg-line-chart-wrapper">
+                <svg viewBox="0 0 500 220" preserveAspectRatio="none" style="width:100%; height:220px; display:block;">
+                  <polyline points="0,154 62,132 125,143 187,110 250,88 312,77 375,66 437,55 500,33" fill="none" stroke="#675895" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <polyline points="0,176 62,165 125,154 187,143 250,121 312,110 375,99 437,88 500,66" fill="none" stroke="#4697E2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <polyline points="0,198 62,187 125,176 187,170 250,160 312,154 375,143 437,132 500,110" fill="none" stroke="#F06E2D" stroke-width="2.5" stroke-dasharray="8 5" stroke-linecap="round"/>
+                  <line x1="0" y1="88" x2="500" y2="88" stroke="#03A577" stroke-width="2" stroke-dasharray="3 4" stroke-linecap="round" opacity="0.7"/>
+                  <text x="505" y="92" font-family="Inter, sans-serif" font-size="10" fill="#03A577" font-weight="600" text-anchor="start">Target</text>
+                  <circle cx="0" cy="154" r="4" fill="#675895" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="250" cy="88" r="4" fill="#675895" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="500" cy="33" r="4" fill="#675895" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="0" cy="176" r="4" fill="#4697E2" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="250" cy="121" r="4" fill="#4697E2" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="500" cy="66" r="4" fill="#4697E2" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="62" cy="187" r="3.5" fill="#F06E2D" stroke="var(--bg-card)" stroke-width="2"/>
+                  <circle cx="312" cy="154" r="3.5" fill="#F06E2D" stroke="var(--bg-card)" stroke-width="2"/>
+                </svg>
+              </div>
+              <div class="sg-x-axis" style="padding-left:40px;">
+                <span class="sg-x-label">W1</span><span class="sg-x-label">W2</span><span class="sg-x-label">W3</span><span class="sg-x-label">W4</span><span class="sg-x-label">W5</span><span class="sg-x-label">W6</span><span class="sg-x-label">W7</span><span class="sg-x-label">W8</span><span class="sg-x-label">W9</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======== HORIZONTAL STACKED BAR ======== -->
+        <div class="sg-card sg-grid-full">
+          <div class="sg-card-header">
+            <h3>Stacked Horizontal Bar — Composition View</h3>
+            <p>Full-opacity segment fills with gap separators — proportional breakdown across categories</p>
+          </div>
+          <div class="sg-card-body">
+            <div class="sg-legend">
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-1)"></div>Type A</div>
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-2)"></div>Type B</div>
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-3)"></div>Type C</div>
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-4)"></div>Type D</div>
+              <div class="sg-legend-item"><div class="sg-legend-dot" style="background:var(--cat-5)"></div>Type E</div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div class="sg-stacked-row"><span class="sg-stacked-label">Region 1</span><div class="sg-stacked-track"><div class="sg-stacked-segment" style="width:35%; background:var(--cat-1);"></div><div class="sg-stacked-segment" style="width:25%; background:var(--cat-2);"></div><div class="sg-stacked-segment" style="width:18%; background:var(--cat-3);"></div><div class="sg-stacked-segment" style="width:14%; background:var(--cat-4);"></div><div class="sg-stacked-segment" style="width:8%; background:var(--cat-5);"></div></div></div>
+              <div class="sg-stacked-row"><span class="sg-stacked-label">Region 2</span><div class="sg-stacked-track"><div class="sg-stacked-segment" style="width:28%; background:var(--cat-1);"></div><div class="sg-stacked-segment" style="width:30%; background:var(--cat-2);"></div><div class="sg-stacked-segment" style="width:20%; background:var(--cat-3);"></div><div class="sg-stacked-segment" style="width:12%; background:var(--cat-4);"></div><div class="sg-stacked-segment" style="width:10%; background:var(--cat-5);"></div></div></div>
+              <div class="sg-stacked-row"><span class="sg-stacked-label">Region 3</span><div class="sg-stacked-track"><div class="sg-stacked-segment" style="width:22%; background:var(--cat-1);"></div><div class="sg-stacked-segment" style="width:18%; background:var(--cat-2);"></div><div class="sg-stacked-segment" style="width:28%; background:var(--cat-3);"></div><div class="sg-stacked-segment" style="width:20%; background:var(--cat-4);"></div><div class="sg-stacked-segment" style="width:12%; background:var(--cat-5);"></div></div></div>
+              <div class="sg-stacked-row"><span class="sg-stacked-label">Region 4</span><div class="sg-stacked-track"><div class="sg-stacked-segment" style="width:40%; background:var(--cat-1);"></div><div class="sg-stacked-segment" style="width:22%; background:var(--cat-2);"></div><div class="sg-stacked-segment" style="width:15%; background:var(--cat-3);"></div><div class="sg-stacked-segment" style="width:15%; background:var(--cat-4);"></div><div class="sg-stacked-segment" style="width:8%; background:var(--cat-5);"></div></div></div>
+              <div class="sg-stacked-row"><span class="sg-stacked-label">Region 5</span><div class="sg-stacked-track"><div class="sg-stacked-segment" style="width:15%; background:var(--cat-1);"></div><div class="sg-stacked-segment" style="width:35%; background:var(--cat-2);"></div><div class="sg-stacked-segment" style="width:22%; background:var(--cat-3);"></div><div class="sg-stacked-segment" style="width:18%; background:var(--cat-4);"></div><div class="sg-stacked-segment" style="width:10%; background:var(--cat-5);"></div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======== TRANSPARENCY SHOWCASE ======== -->
+        <div class="sg-card sg-grid-full">
+          <div class="sg-card-header">
+            <h3>Transparency System — Algorithmic Alpha Stops</h3>
+            <p>Each categorical color at 100%, 60%, 40%, 20%, 10% opacity. The system is generative — any new categorical color automatically gets all transparency variants.</p>
+          </div>
+          <div class="sg-card-body">
+            <div class="sg-transparency-showcase">
+              <div class="sg-transparency-stack">
+                <div class="sg-transparency-swatch" style="background:#675895; color:#fff;">100%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(103,88,149,0.6); color:#fff;">60%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(103,88,149,0.4); color:#ccc;">40%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(103,88,149,0.2); color:#aaa;">20%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(103,88,149,0.1); color:#888;">10%</div>
+                <div class="sg-transparency-label">cat-1</div>
+              </div>
+              <div class="sg-transparency-stack">
+                <div class="sg-transparency-swatch" style="background:#4697E2; color:#fff;">100%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(70,151,226,0.6); color:#fff;">60%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(70,151,226,0.4); color:#ccc;">40%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(70,151,226,0.2); color:#aaa;">20%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(70,151,226,0.1); color:#888;">10%</div>
+                <div class="sg-transparency-label">cat-2</div>
+              </div>
+              <div class="sg-transparency-stack">
+                <div class="sg-transparency-swatch" style="background:#CB487A; color:#fff;">100%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(203,72,122,0.6); color:#fff;">60%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(203,72,122,0.4); color:#ccc;">40%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(203,72,122,0.2); color:#aaa;">20%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(203,72,122,0.1); color:#888;">10%</div>
+                <div class="sg-transparency-label">cat-3</div>
+              </div>
+              <div class="sg-transparency-stack">
+                <div class="sg-transparency-swatch" style="background:#FFB500; color:#fff;">100%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(255,181,0,0.6); color:#ccc;">60%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(255,181,0,0.4); color:#ccc;">40%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(255,181,0,0.2); color:#aaa;">20%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(255,181,0,0.1); color:#888;">10%</div>
+                <div class="sg-transparency-label">cat-4</div>
+              </div>
+              <div class="sg-transparency-stack">
+                <div class="sg-transparency-swatch" style="background:#204188; color:#fff;">100%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(32,65,136,0.6); color:#fff;">60%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(32,65,136,0.4); color:#ccc;">40%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(32,65,136,0.2); color:#aaa;">20%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(32,65,136,0.1); color:#888;">10%</div>
+                <div class="sg-transparency-label">cat-5</div>
+              </div>
+              <div class="sg-transparency-stack">
+                <div class="sg-transparency-swatch" style="background:#F06E2D; color:#fff;">100%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(240,110,45,0.6); color:#fff;">60%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(240,110,45,0.4); color:#ccc;">40%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(240,110,45,0.2); color:#aaa;">20%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(240,110,45,0.1); color:#888;">10%</div>
+                <div class="sg-transparency-label">cat-6</div>
+              </div>
+              <div class="sg-transparency-stack">
+                <div class="sg-transparency-swatch" style="background:#03A577; color:#fff;">100%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(3,165,119,0.6); color:#fff;">60%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(3,165,119,0.4); color:#ccc;">40%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(3,165,119,0.2); color:#aaa;">20%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(3,165,119,0.1); color:#888;">10%</div>
+                <div class="sg-transparency-label">cat-7</div>
+              </div>
+              <div class="sg-transparency-stack">
+                <div class="sg-transparency-swatch" style="background:#3265D2; color:#fff;">100%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(50,101,210,0.6); color:#fff;">60%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(50,101,210,0.4); color:#ccc;">40%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(50,101,210,0.2); color:#aaa;">20%</div>
+                <div class="sg-transparency-swatch" style="background:rgba(50,101,210,0.1); color:#888;">10%</div>
+                <div class="sg-transparency-label">cat-8</div>
+              </div>
+            </div>
+            <div style="margin-top:24px; display:grid; grid-template-columns: repeat(4, 1fr); gap:12px;">
+              <div style="padding:12px; background:var(--bg-inner); border-radius:10px;">
+                <div style="font-size:11px; font-weight:700; color:var(--cat-7); margin-bottom:4px;">100% — DATA ENCODING</div>
+                <div style="font-size:12px; color:var(--text-secondary); line-height:1.4;">Bar fills, pie segments, line strokes, scatter points, legend dots</div>
+              </div>
+              <div style="padding:12px; background:var(--bg-inner); border-radius:10px;">
+                <div style="font-size:11px; font-weight:700; color:var(--cat-2); margin-bottom:4px;">60% — SUPPORTING</div>
+                <div style="font-size:12px; color:var(--text-secondary); line-height:1.4;">Secondary series, comparison overlays, tooltip indicator backgrounds</div>
+              </div>
+              <div style="padding:12px; background:var(--bg-inner); border-radius:10px;">
+                <div style="font-size:11px; font-weight:700; color:var(--cat-1); margin-bottom:4px;">40% — CONTEXTUAL</div>
+                <div style="font-size:12px; color:var(--text-secondary); line-height:1.4;">Stacked area overlaps, range bands, inactive/muted series states</div>
+              </div>
+              <div style="padding:12px; background:var(--bg-inner); border-radius:10px;">
+                <div style="font-size:11px; font-weight:700; color:var(--text-muted); margin-bottom:4px;">20% / 10% — AMBIENT</div>
+                <div style="font-size:12px; color:var(--text-secondary); line-height:1.4;">Area chart gradient fills, hover backgrounds, row highlights, selection states</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======== TOOLTIP STYLE ======== -->
+        <div class="sg-card">
+          <div class="sg-card-header">
+            <h3>Tooltip Pattern</h3>
+            <p>Light tooltip on dark background — uses categorical dots for series identification</p>
+          </div>
+          <div class="sg-card-body" style="display:flex; justify-content:center; padding:40px;">
+            <div class="sg-tooltip-demo">
+              <div class="tt-label">Q3 2026 — Week 12</div>
+              <div style="margin-top:8px; display:flex; flex-direction:column; gap:6px;">
+                <div class="tt-row"><div class="tt-dot" style="background:var(--cat-1)"></div><span style="width:80px;">Product A</span><span class="tt-value">$12,450</span></div>
+                <div class="tt-row"><div class="tt-dot" style="background:var(--cat-2)"></div><span style="width:80px;">Product B</span><span class="tt-value">$8,230</span></div>
+                <div class="tt-row"><div class="tt-dot" style="background:var(--cat-3)"></div><span style="width:80px;">Product C</span><span class="tt-value">$5,870</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======== SPARKLINE / KPI CARDS ======== -->
+        <div class="sg-card">
+          <div class="sg-card-header">
+            <h3>Inline Sparklines &amp; KPI Cards</h3>
+            <p>Compact chart patterns for dashboard cards and table cells</p>
+          </div>
+          <div class="sg-card-body">
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px;">
+              <div style="border:1px solid var(--border); border-radius:12px; padding:16px;">
+                <div style="font-size:11px; color:var(--text-muted); font-weight:500; text-transform:uppercase; letter-spacing:0.5px;">Total Revenue</div>
+                <div style="font-size:24px; font-weight:700; margin:4px 0;">$2.4M</div>
+                <div style="display:flex; align-items:center; gap:4px; font-size:12px; color:#03A577; font-weight:600;">↑ 12.3% <span style="color:var(--text-muted); font-weight:400;">vs prior</span></div>
+                <svg viewBox="0 0 200 40" style="width:100%; height:40px; margin-top:8px;">
+                  <defs><linearGradient id="dv-spark1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#675895" stop-opacity="0.3"/><stop offset="100%" stop-color="#675895" stop-opacity="0"/></linearGradient></defs>
+                  <path d="M0,30 L25,28 L50,25 L75,22 L100,18 L125,20 L150,14 L175,10 L200,6 L200,40 L0,40 Z" fill="url(#dv-spark1)"/>
+                  <polyline points="0,30 25,28 50,25 75,22 100,18 125,20 150,14 175,10 200,6" fill="none" stroke="#675895" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div style="border:1px solid var(--border); border-radius:12px; padding:16px;">
+                <div style="font-size:11px; color:var(--text-muted); font-weight:500; text-transform:uppercase; letter-spacing:0.5px;">Active Users</div>
+                <div style="font-size:24px; font-weight:700; margin:4px 0;">18.7K</div>
+                <div style="display:flex; align-items:center; gap:4px; font-size:12px; color:#03A577; font-weight:600;">↑ 5.8% <span style="color:var(--text-muted); font-weight:400;">vs prior</span></div>
+                <svg viewBox="0 0 200 40" style="width:100%; height:40px; margin-top:8px;">
+                  <defs><linearGradient id="dv-spark2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4697E2" stop-opacity="0.3"/><stop offset="100%" stop-color="#4697E2" stop-opacity="0"/></linearGradient></defs>
+                  <path d="M0,25 L25,22 L50,28 L75,20 L100,15 L125,18 L150,12 L175,14 L200,8 L200,40 L0,40 Z" fill="url(#dv-spark2)"/>
+                  <polyline points="0,25 25,22 50,28 75,20 100,15 125,18 150,12 175,14 200,8" fill="none" stroke="#4697E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div style="border:1px solid var(--border); border-radius:12px; padding:16px;">
+                <div style="font-size:11px; color:var(--text-muted); font-weight:500; text-transform:uppercase; letter-spacing:0.5px;">Churn Rate</div>
+                <div style="font-size:24px; font-weight:700; margin:4px 0;">3.2%</div>
+                <div style="display:flex; align-items:center; gap:4px; font-size:12px; color:#DA5D4C; font-weight:600;">↑ 0.4% <span style="color:var(--text-muted); font-weight:400;">vs prior</span></div>
+                <svg viewBox="0 0 200 40" style="width:100%; height:40px; margin-top:8px;">
+                  <defs><linearGradient id="dv-spark3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#DA5D4C" stop-opacity="0.3"/><stop offset="100%" stop-color="#DA5D4C" stop-opacity="0"/></linearGradient></defs>
+                  <path d="M0,28 L25,25 L50,22 L75,26 L100,20 L125,15 L150,18 L175,12 L200,8 L200,40 L0,40 Z" fill="url(#dv-spark3)"/>
+                  <polyline points="0,28 25,25 50,22 75,26 100,20 125,15 150,18 175,12 200,8" fill="none" stroke="#DA5D4C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /sg-grid -->
+    </div><!-- /viz-sg -->
+
   </div>
 </div>
 
@@ -1477,6 +2043,17 @@ showPage = function(id) {
   location.hash = id === 'home' ? '' : id;
   origShowPage(id);
 };
+
+// Chart theme toggle
+function toggleChartTheme() {
+  const sg = document.querySelector('.viz-sg');
+  const icon = document.getElementById('themeIcon');
+  const label = document.getElementById('themeLabel');
+  sg.classList.toggle('light-mode');
+  const isLight = sg.classList.contains('light-mode');
+  icon.innerHTML = isLight ? '&#9728;' : '&#9790;';
+  label.textContent = isLight ? 'Dark Mode' : 'Light Mode';
+}
 </script>
 
 </body>
